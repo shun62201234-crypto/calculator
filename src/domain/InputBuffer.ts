@@ -1,0 +1,221 @@
+import { Config } from "../utility/Config";
+
+/**
+ * ユーザーの入力値を文字列として保持・管理するクラス
+ * 
+ * @remarks
+ * 電卓の入力中データ（数字・小数点・負号など）を管理する
+ */
+export class InputBuffer {
+    /** 入力中の値を保持する。空文字列（""）は未入力状態 */
+    private inputValue: string = "";
+
+    // --- 状態チェック ---
+    /**
+     * 入力値が空（未入力状態）かどうかを判定する
+     * 
+     * @returns 
+     * 入力値がまだ何も入力されてない("") ならtrueを返す、それ以外なら false
+    */
+    public isEmpty(): boolean {
+        return this.inputValue === "";
+    }
+
+    // --- 取得系 ---
+    /**
+     * 現在の入力値を取得する
+     * 
+     * @returns 現在保持している入力値
+     * @remarks
+     * - 表示更新や計算処理で利用される
+     */
+    public getValue(): string {
+        return this.inputValue;
+    }
+
+    /**
+     * 入力値を数値へ変換する
+     * 
+     * @returns 現在の入力値を数値へ変換した値
+     * @remarks
+     * 未入力状態なら 0 を返す
+     */
+    public toNumber(): number {
+        if (this.isEmpty()) {
+            return 0;
+        } 
+        return Number(this.inputValue);
+    }
+
+    /**
+     * 入力値の数字部分の桁数を取得する
+     * 
+     * @returns 数字のみの桁数
+     * @remarks 
+     * 現在の入力値から"."と"-"を除いた数字だけを対象に桁数を数える。
+     */
+    public digitCount(): number {
+        return this.inputValue.replace(/[.\-]/g, "").length; 
+    }
+    
+    // ---  基本操作 ---
+    /** 入力値の中身を未入力状態へ戻す */
+    public clear(): void {
+        this.inputValue = "";
+    }
+
+    /**
+     * 数値を文字列に変換し、現在の入力値として設定する
+     * 
+     * @param value 設定する数値
+     * @remarks
+     * - 計算結果などの数値を文字列へ変換して保持する
+     */
+    public setFromNumber(value: number): void {
+        this.inputValue = String(value);
+    }
+
+    /** 入力値の末尾1文字を削除する */
+    public pop(): void {
+        this.inputValue = this.inputValue.slice(0, -1);
+    }
+
+    // --- 入力構築 ---
+    /**
+     * 入力値の末尾に新しい数字を追加する
+     * 
+     * @param digit 追加する数字（0〜9）
+     * @remarks 
+     * - 入力されている桁数が最大桁数を超えるなら、これ以上数字は追加しない
+     * - 未入力状態または現在の値が"0"なら、入力値を新しい数字へ置き換える
+     * - 入力値が"-"のみ入力されているなら、負数入力として数字を追加する
+     */
+    public pushDigit(digit: string): void {
+        if (this.digitCount() >= Config.Input.MAX_DIGITS) {
+            console.log(`既に${Config.Input.MAX_DIGITS}桁だけ入力されています。this.digitCount=${this.digitCount()} `)
+            return;
+        }
+
+        if (this.isEmpty() || this.inputValue === Config.Input.DEFAULT_DISPLAY_VALUE) {
+            this.inputValue = digit;
+            return;
+        }
+
+        if (this.inputValue === "-") {
+            this.inputValue = "-" + digit;
+            return;
+        }
+        
+        this.inputValue += digit;
+    }
+
+    /**
+     * 入力値の末尾に小数点を追加する
+     * 
+     * @remarks
+     * - 入力値の中に小数点が既に含まれているなら、追加しない
+     * - 入力されている桁数が最大桁数を超えるなら、"."は追加しない
+     * - 未入力状態なら 、"0." を設定する
+     */
+    public pushDecimal(): void {
+        if (this.inputValue.includes(".")){
+            return;
+        }
+
+        if (this.digitCount() >= Config.Input.MAX_DIGITS) {
+            return;
+        }
+
+        if (this.isEmpty()) {
+            this.inputValue = Config.Input.DEFAULT_DISPLAY_VALUE +".";
+            return;
+        } 
+        
+        this.inputValue += ".";
+    }
+
+    // --- 特殊操作 ---
+    /**
+     * 入力値の符号（+ / -）を切り替える
+     * 
+     * @remarks
+     * - 未入力状態なら "-" を設定する
+     * - 入力値が"-" のみ入力されているなら入力を空に戻す（マイナス状態を解除する）
+     * - 入力値が"-"で始まっている負数なら、"-"を削除する。正数なら先頭に "-" を付ける
+     */
+    public toggleSign(): void {
+        if (this.isEmpty()) {
+            this.inputValue = "-";
+            return;
+        }
+
+        if (this.inputValue === "-") {
+            this.clear();
+            return;
+        }
+
+        if (this.inputValue.startsWith("-")) {
+            this.inputValue = this.inputValue.slice(1);
+        } else {
+            this.inputValue = "-" + this.inputValue;
+        }
+    }
+
+}
+
+
+/**memo
+InputBufferの本来の責務は、ユーザーが入力した“文字列”を安全に積み上げる箱
+*/
+/**memo
+---
+以下のAパターン、Bパターンは意味合いとしては同じであるが違いとしては、
+this.inputValue === ""「空文字かどうか」をそのまま比較
+this.inputValue.length === 0「長さが0かどうか」を見て比較
+"" → length = 0 、 "1"→ length = 1 、 "123"→ length = 3となっているので、
+this.inputValue.length === 0文字が1つも入っていない状態か？つまり空文字を文字数カウンターで確認している。
+
+また、電卓画面上では常に何か表示されている（普通は "0"）ので、
+isEmpty(): booleanの関数である空文字の状態がなぜ存在するのかについては、
+内部状態（ロジック）と表示（UI）は別だから。ユーザー側のUI（画面）には常に0など表示されるが、
+内部状態（InputBuffer）では、まだ「入力開始してない」という状態である。
+isEmpty()があると「最初の1桁入力」という特別扱いができる。
+もし isEmpty を無くすと全部 "0" ベースになり問題点として、
+「本当に0を入力したのか」「まだ何も入力してないのか」区別がつかなくなる。
+if (this.inputValue === "0") {
+    this.inputValue = digit;
+}
+---
+【Aパターン】
+public isEmpty(): boolean {
+    return this.inputValue === "";
+}
+【Bパターン】
+public isEmpty(): boolean {
+    return this.inputValue.length === 0;
+}
+*/
+/**memo
+---
+以下のpushDigitの引数digitの型はstringかnumberどちらにすべきかについて、
+電卓に関してはstring型が好ましい。
+新しい数字を追加するpushDigit関数は追加する際に文字列として追加する必要がある。
+そのためnumber型で記載しても戻り値の結果はstring型に変換して数値を追加しているから。
+もし、引き数をnumber型で記載して戻り値の結果をthis.inputValue += digit;で記載した場合
+private inputValue: number = 0;
+pushDigit(digit: number): void {
+    this.inputValue = this.inputValue * 10 + digit;
+}
+のように数字として文字と新しく追加できるコードは記載できるが、
+"-"や"0."のような文字列となる表現ができなくなる。
+そのため数値を文字列に変換して既存の文字列数字に追加できるstring型としている。
+---
+【string型の場合】
+pushDigit(digit: string): void {
+    this.inputValue += digit;
+}
+【number型の場合】
+pushDigit(digit: string): void {
+    this.inputValue += String(digit);
+}
+*/
