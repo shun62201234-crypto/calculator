@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/style.css">
+    <title>calculator</title>
+  </head>
+
+  <body>
+    <div class="app">
+      <!-- 画面表示displyと数値演算子ボタンを囲む大枠 -->
+      <div class="container">
+        <!-- 計算結果表示画面　初期値0 -->
+        <div class="screen" id="screen">
+          <!-- 計算途中履歴表示画面 -->
+          <div class="history" id="history"></div>
+          <span id="screen-value">0</span>
+        </div>
+
+  
+        <!-- 数値演算子押下ボタン -->
+        <div class="keys">
+          <button class="number-button" data-key="7">7</button>
+          <button class="number-button" data-key="8">8</button>
+          <button class="number-button" data-key="9">9</button>
+          <button class="operator-button" data-key="op:/">÷</button>
+          <button class="number-button" data-key="4">4</button>
+          <button class="number-button" data-key="5">5</button>
+          <button class="number-button" data-key="6">6</button>
+          <button class="operator-button" data-key="op:*">×</button>
+          <button class="number-button" data-key="1">1</button>
+          <button class="number-button" data-key="2">2</button>
+          <button class="number-button" data-key="3">3</button>
+          <button class="operator-button" data-key="op:-">-</button>
+          <button class="number-button" data-key="0">0</button>
+          <button class="decimal-button" data-key=".">.</button>
+          <button class="clear-button" id="clear-button" data-key="AC">AC</button>
+          <button class="operator-button" data-key="op:+">+</button>
+          <button class="equal-button" data-key="eq">=</button>
+          <!-- <button class="backspace-button" id="backspace-button" data-key="BS">⌫</button> -->
+        </div>
+      </div>
+  
+      <div class="debug-panel" id="debug-panel"></div>
+      <button id="clear-log">ログクリア</button>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+
+
+<!-- 
+<button data-key="7">7</button>
+<button data-key="op:/">÷</button>
+<button data-key="eq">=</button>
+"7" → 数字ボタン
+"op:/" → 演算子（割り算）
+"eq" → イコール（計算実行）
+みたいに、「そのボタンの役割」をプログラム側に伝えるための目印になっています。
+
+見た目の文字（7 や ÷）と、プログラムの処理を分けるためです。
+たとえば：
+表示 → ÷
+内部処理 → /
+みたいにできるので便利です。
+
+data-key は 自分で作れる属性
+JavaScriptで値を取り出せる
+ボタンの役割を識別するのに使う（今回の電卓みたいなUIに最適）
+-->
