@@ -40,16 +40,3 @@ export class DomDisplay implements IDisplay {
     }
 }
 
-
-
-/**memo
----
-render と renderError が同じテキストを表示する処理なので、ロジック側が「これはエラーです」と伝える場合、
-表示側は「じゃあ赤くして表示するね」と視覚化してあげると親切。
-this.element.classList.add();はエラーが起きたときに表示をCSS側を参照して色付けしてくれる。
-this.element.classList.remove();はエラーがないときは、色付けを外す（しない）設定。
-add() → クラスをつける（見た目変更）remove() → クラスを外す（元に戻す）
----
-this.element.classList.remove();
-this.element.classList.add();
- */
