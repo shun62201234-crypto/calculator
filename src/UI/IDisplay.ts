@@ -25,13 +25,3 @@ export interface IDisplay {
     renderHistory(text: string): void;
 }
 
-
-
-/**memo
----
-このIDisplayインターフェースは、単なる「表示」ではなく、状態に応じて表示方法を切り替えるための抽象関数。
-renderとrenderErrorで分けて記載した理由は、表示側で「見た目を変える」判断ができるため。
-display.render("～");だけの場合だと、display.render("～");は正常メッセージなのかエラーメッセージなのか区別がつかない。
-renderErrorがあればdisplay.renderError("0で割ることはできません");と呼び出し側で、「これはエラー」と明示できる。
----
-*/
