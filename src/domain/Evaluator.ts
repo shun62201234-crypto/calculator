@@ -35,12 +35,3 @@ export class Evaluator {
     }
 }
 
-
-/**memo
----
-defaultについては、Operationで演算子を定義しているので不要。
-演算子記号以外のその他記号が入ることがないため
----
-default:
-    throw new Error("不明な演算子です");
- */
