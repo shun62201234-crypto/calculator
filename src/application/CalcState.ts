@@ -31,22 +31,3 @@ export const CalcState = {
  * "READY" | "ERROR" のような文字列型として扱えるように補完する
  */
 export type CalcState = typeof CalcState [keyof typeof CalcState];
-
-
-
-/* memo
---- 
-enum定義しない理由はJavaScriptに変換されると余計なコードが出る（副作用扱い）。
-as const + typeの場合、値（オブジェクト）と型が1セットとして扱えreadonlyとして読み取り専用にできる。
-意味（ドメイン）を明確にして、「その値が何なのか」を型で表現することで、間違った値をそもそも書けなくする。
-enumで記載する場合は以下の通り。
----
-enum CalcState {
-    Ready = "READY",
-    InputtingFirst = "INPUTTINGFIRST",
-    OperatorEntered = "OPERATORENTERED",
-    InputtingSecond = "INPUTTINGSECOND",
-    ResultShown = "RESULTSHOWN",
-    Error = "ERROR",
-}
-*/
