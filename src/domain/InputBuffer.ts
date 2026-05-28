@@ -10,7 +10,7 @@ export class InputBuffer {
     /** 入力中の値を保持する。空文字列（""）は未入力状態 */
     private inputValue: string = "";
 
-    // --- 状態チェック ---
+    // === 状態チェック ===
     /**
      * 入力値が空（未入力状態）かどうかを判定する
      * 
@@ -21,7 +21,7 @@ export class InputBuffer {
         return this.inputValue === "";
     }
 
-    // --- 取得系 ---
+    // === 取得系 ===
     /**
      * 現在の入力値を取得する
      * 
@@ -58,7 +58,7 @@ export class InputBuffer {
         return this.inputValue.replace(/[.\-]/g, "").length; 
     }
     
-    // ---  基本操作 ---
+    // ===  基本操作 ===
     /** 入力値の中身を未入力状態へ戻す */
     public clear(): void {
         this.inputValue = "";
@@ -80,7 +80,7 @@ export class InputBuffer {
         this.inputValue = this.inputValue.slice(0, -1);
     }
 
-    // --- 入力構築 ---
+    // === 入力構築 ===
     /**
      * 入力値の末尾に新しい数字を追加する
      * 
@@ -134,7 +134,7 @@ export class InputBuffer {
         this.inputValue += ".";
     }
 
-    // --- 特殊操作 ---
+    // === 特殊操作 ===
     /**
      * 入力値の符号（+ / -）を切り替える
      * 
@@ -163,59 +163,3 @@ export class InputBuffer {
 
 }
 
-
-/**memo
-InputBufferの本来の責務は、ユーザーが入力した“文字列”を安全に積み上げる箱
-*/
-/**memo
----
-以下のAパターン、Bパターンは意味合いとしては同じであるが違いとしては、
-this.inputValue === ""「空文字かどうか」をそのまま比較
-this.inputValue.length === 0「長さが0かどうか」を見て比較
-"" → length = 0 、 "1"→ length = 1 、 "123"→ length = 3となっているので、
-this.inputValue.length === 0文字が1つも入っていない状態か？つまり空文字を文字数カウンターで確認している。
-
-また、電卓画面上では常に何か表示されている（普通は "0"）ので、
-isEmpty(): booleanの関数である空文字の状態がなぜ存在するのかについては、
-内部状態（ロジック）と表示（UI）は別だから。ユーザー側のUI（画面）には常に0など表示されるが、
-内部状態（InputBuffer）では、まだ「入力開始してない」という状態である。
-isEmpty()があると「最初の1桁入力」という特別扱いができる。
-もし isEmpty を無くすと全部 "0" ベースになり問題点として、
-「本当に0を入力したのか」「まだ何も入力してないのか」区別がつかなくなる。
-if (this.inputValue === "0") {
-    this.inputValue = digit;
-}
----
-【Aパターン】
-public isEmpty(): boolean {
-    return this.inputValue === "";
-}
-【Bパターン】
-public isEmpty(): boolean {
-    return this.inputValue.length === 0;
-}
-*/
-/**memo
----
-以下のpushDigitの引数digitの型はstringかnumberどちらにすべきかについて、
-電卓に関してはstring型が好ましい。
-新しい数字を追加するpushDigit関数は追加する際に文字列として追加する必要がある。
-そのためnumber型で記載しても戻り値の結果はstring型に変換して数値を追加しているから。
-もし、引き数をnumber型で記載して戻り値の結果をthis.inputValue += digit;で記載した場合
-private inputValue: number = 0;
-pushDigit(digit: number): void {
-    this.inputValue = this.inputValue * 10 + digit;
-}
-のように数字として文字と新しく追加できるコードは記載できるが、
-"-"や"0."のような文字列となる表現ができなくなる。
-そのため数値を文字列に変換して既存の文字列数字に追加できるstring型としている。
----
-【string型の場合】
-pushDigit(digit: string): void {
-    this.inputValue += digit;
-}
-【number型の場合】
-pushDigit(digit: string): void {
-    this.inputValue += String(digit);
-}
-*/
