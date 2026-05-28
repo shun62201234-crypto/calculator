@@ -63,21 +63,3 @@ export class KeyMapper {
 
 }
 
-
-
-/**memo
----
-private initializeDigits()は0～9をfor文を用いて動的に生成ができる。
-for (let i = 0; i <= 9; i++) {
-    this.keyMap.set(String(i), { kind: KEY_KIND.DIGIT, value: String(i)});
-}
-静的に生成するなら以下のコード
----
-private initializeDigits() {
-        this.keyMap.set("0", { kind: KEY_KIND.DIGIT, value: "0"});
-        this.keyMap.set("1", { kind: KEY_KIND.DIGIT, value: "1"});
-        this.keyMap.set("2", { kind: KEY_KIND.DIGIT, value: "2"});
-                        ～
-        this.keyMap.set("9", { kind: KEY_KIND.DIGIT, value: "9"});
-    }
- */
