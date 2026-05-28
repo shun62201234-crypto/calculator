@@ -212,27 +212,3 @@ document.addEventListener("keydown", (event) => {
 // --- 初期化(最初の状態をセット) ---
 updateClearButton();
 renderLogPanel();
-
-
-
-/**memo
----
-const clearButtonElement　= document.getElementById("clear-button")as HTMLbuttonElement;
-で記載した場合HTMLが変わった際、クラッシュしていまう。そのため安全な書き方として、以下を追加
-if (!(clearButtonElement instanceof HTMLButtonElement)) {
-    throw new Error("クリアボタンが見つかりません");
-}
-また、なぜDOM取得で作ったclearButtonElementを変数のclearButtonにいれるのか？
-const clearButtonElement　= document.getElementById("clear-button");の時点では、
-開発者側は、HTMLbuttonElementと認識しているが、TypeScriptはこの関数が呼ばれるとき、
-本当にそのチェック済みの値なのか？と考える。その結果nullの可能性あるとエラー警告をだす。
-const clearButton = clearButtonElement;をつくることで、
-この変数は確定済みの型として固定ができるから、完全にHTMLbuttonElementとして扱う。
-そのためDOM取得を以下の記載とした。
----
-const clearButtonElement = document.getElementById("clear-button");
-if (!(clearButtonElement instanceof HTMLButtonElement)) {
-    throw new Error("クリアボタンが見つかりません");
-}
-const clearButton = clearButtonElement;
- */
