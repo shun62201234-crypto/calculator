@@ -82,14 +82,3 @@ export class NumberFormatter {
         return integerPart.length;
     }
 }
-
-
-/**memo
----
-指数表記：表示する数値を絶対値とし極端に大きい値・小さい値は指数表記へ変換する
----
-const abs = Math.abs(formatValue);
-if ((abs >= 1e9) || (abs > 0 && abs < 1e-6)) {
-    return this.formatExponential(formatValue);
-}
- */
