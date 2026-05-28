@@ -17,11 +17,3 @@ try {
     }
 }
 
-
-
-// export class DivisionByZeroError extends Error {
-//     constructor(message: string = "0で割ることはできません") {
-//         super(message);
-//         this.name = "DivisionByZeroError";
-//     }
-// }
