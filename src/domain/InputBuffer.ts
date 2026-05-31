@@ -92,7 +92,7 @@ export class InputBuffer {
      */
     public pushDigit(digit: string): void {
         if (this.digitCount() >= Config.Input.MAX_DIGITS) {
-            console.log(`既に${Config.Input.MAX_DIGITS}桁だけ入力されています。this.digitCount=${this.digitCount()} `)
+            // console.log(`既に${Config.Input.MAX_DIGITS}桁だけ入力されています。this.digitCount=${this.digitCount()} `)
             return;
         }
 
