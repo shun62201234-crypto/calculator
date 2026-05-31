@@ -25,16 +25,16 @@ if (!(debugPanelElement instanceof HTMLElement)) {
 /** 型を確定したデバッグログ表示エリア */
 const debugPanel = debugPanelElement;
 
-/**
- * AC/BS 切り替えボタン要素
- * @throws もし取得できなかった場合やHTMLButtonElementじゃなければエラー
- */
-const clearButtonElement = document.getElementById("clear-button");
-if (!(clearButtonElement instanceof HTMLButtonElement)) {
-    throw new Error("クリアボタンが見つかりません");
-}
-/** AC/BSの切り替えボタン取得する要素の型を確定するための変数 */
-const clearButton = clearButtonElement;
+// /**
+//  * AC/BS 切り替えボタン要素
+//  * @throws もし取得できなかった場合やHTMLButtonElementじゃなければエラー
+//  */
+// const clearButtonElement = document.getElementById("clear-button");
+// if (!(clearButtonElement instanceof HTMLButtonElement)) {
+//     throw new Error("クリアボタンが見つかりません");
+// }
+// /** AC/BSの切り替えボタン取得する要素の型を確定するための変数 */
+// const clearButton = clearButtonElement;
 
 /**
  * 履歴表示を取得する要素
@@ -55,26 +55,26 @@ const mapper = new KeyMapper();
 /** 計算ロジック本体 */
 const calculator = new Calculator(display);
 
-// === ここからAC/BSの切り替え ===
-/**
- * Calculatorの現在状態（入力の有無）に応じて、ACとBSを切り替える
- * 
- * @remarks
- * - 入力がない場合は、ボタンの表示と動作を "AC"（全削除） を表示する
- * - 入力がある場合は、ボタンの表示と動作を "BS"（末尾削除） を表示する
- */
-function updateClearButton(): void {
-    // 入力があるかどうか（Calculatorの状態）
-    const hasInput = calculator.hasAnyInput();
+// // === ここからAC/BSの切り替え ===
+// /**
+//  * Calculatorの現在状態（入力の有無）に応じて、ACとBSを切り替える
+//  * 
+//  * @remarks
+//  * - 入力がない場合は、ボタンの表示と動作を "AC"（全削除） を表示する
+//  * - 入力がある場合は、ボタンの表示と動作を "BS"（末尾削除） を表示する
+//  */
+// function updateClearButton(): void {
+//     // 入力があるかどうか（Calculatorの状態）
+//     const hasInput = calculator.hasAnyInput();
 
-    if (!hasInput) {
-        clearButton.textContent = "AC";
-        clearButton.dataset.key = "AC";
-    } else {
-        clearButton.textContent = "⌫"
-        clearButton.dataset.key = "BS";
-    }
-}
+//     if (!hasInput) {
+//         clearButton.textContent = "AC";
+//         clearButton.dataset.key = "AC";
+//     } else {
+//         clearButton.textContent = "⌫"
+//         clearButton.dataset.key = "BS";
+//     }
+// }
 
 // === ここからログの処理 ===
 /**
@@ -174,7 +174,7 @@ function handleButtonClick(button: HTMLButtonElement): void {
 
     calculator.handleInput(token);
 
-    updateClearButton();
+    // updateClearButton();
 
     logAction( `キー: ${key}, 状態: ${calculator.getState()}, 表示: ${screen.textContent}`);
 }
@@ -204,11 +204,11 @@ document.addEventListener("keydown", (event) => {
             kind: "backspace"
         });
 
-        updateClearButton();
+        // updateClearButton();
     }
 });
 
 
 // --- 初期化(最初の状態をセット) ---
-updateClearButton();
+// updateClearButton();
 renderLogPanel();
