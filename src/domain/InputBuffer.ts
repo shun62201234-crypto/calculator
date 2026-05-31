@@ -133,7 +133,7 @@ export class InputBuffer {
         } 
 
         if (this.inputValue === "-") {
-            this.inputValue = Config.Input.DEFAULT_DISPLAY_VALUE + ".";
+            this.inputValue = "-" + Config.Input.DEFAULT_DISPLAY_VALUE + ".";
             return;
         }
         
