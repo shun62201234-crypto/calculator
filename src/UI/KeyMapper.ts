@@ -57,7 +57,7 @@ export class KeyMapper {
      */
     public resolve(key: string): KeyToken| null {
         const token = this.keyMap.get(key) ?? null;
-        // console.log("[KeyMapper]", key, "→", token)
+        console.log("[KeyMapper]", key, "→", token)
         return token;
     }
 

@@ -8,12 +8,12 @@ export class DivisionByZeroError extends Error {
     }
 }
 
-try {
-    throw new DivisionByZeroError();
-} catch (error: unknown) {
-    if (error instanceof DivisionByZeroError) {
-        console.log(error.name);
-        console.log(error.message);
-    }
-}
+// try {
+//     throw new DivisionByZeroError();
+// } catch (error: unknown) {
+//     if (error instanceof DivisionByZeroError) {
+//         console.log(error.name);
+//         console.log(error.message);
+//     }
+// }
 

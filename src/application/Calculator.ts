@@ -56,7 +56,7 @@ export class Calculator {
      * - 表示更新をスキップしないなら、画面を更新する
      */
     public handleInput(token: KeyToken): void {
-        // console.log("[handleInput開始]", this.state, token);
+        console.log("[handleInput開始]", this.state, token);
 
         if (!this.canAcceptInput(token)) {
             return;
@@ -67,7 +67,7 @@ export class Calculator {
             this.render();
         }
 
-        // console.log("[処理後の状態]", this.state);
+        console.log("[処理後の状態]", this.state);
     }
 
     /**
@@ -103,12 +103,13 @@ export class Calculator {
      */
     private canAcceptInput(token: KeyToken): boolean {
         if (this.state === CalcState.Error) {
-            // console.log("Error状態で入力ブロック");
+            console.log("Error状態で入力ブロック");
             return token.kind === "all_clear";
         }
 
         return true; // クリアしても履歴（クリアできてない）
     }
+
 
     // === 入力処理 ===
     /**

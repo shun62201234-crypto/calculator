@@ -161,13 +161,13 @@ const calculator = new Calculator(display);
  */
 function handleButtonClick(button: HTMLButtonElement): void {
     const key = button.dataset.key;
-    // console.log("[クリック]", key);
+    console.log("[クリック]", key);
     if (!key) {
         return;
     }
 
     const token = mapper.resolve(key);
-    // console.log("[トークン]", token)
+    console.log("[トークン]", token)
     if (!token) {
         return;
     }
