@@ -255,6 +255,10 @@ export class Calculator {
      * - 直前の演算子を新しい演算子に置き換えたなら処理を終了する
      */
     private handleOperator(op: Operation): void {
+        if (op === Operation.Subtract && this.buffer.getValue() === "-") {
+            return;
+        }
+
         if (this.tryHandleInitialMinus(op)) {
             return;
         }
