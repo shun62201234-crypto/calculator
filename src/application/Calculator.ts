@@ -356,12 +356,17 @@ export class Calculator {
      * @returns 負数入力として処理した場合は true
      * @remarks
      * - 入力値と左辺が未設定の状態で「-」が入力されたなら、負数として扱い1つ目の数値入力状態へ移行する
+     * - 入力値が「-」のみの状態で「-」が入力されたなら、負数入力のまま状態を維持する
      * - 条件に一致しないなら通常の演算子処理へ進む
      */
     private tryHandleInitialMinus(op: Operation): boolean {
         if (this.buffer.isEmpty() && this.left === null && op === Operation.Subtract) {
             this.buffer.toggleSign();
             this.state = CalcState.InputtingFirst;
+            return true;
+        }
+
+        if(this.buffer.getValue() === "-" && op === Operation.Subtract) {
             return true;
         }
 
