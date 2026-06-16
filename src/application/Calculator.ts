@@ -255,7 +255,7 @@ export class Calculator {
      * - 直前の演算子を新しい演算子に置き換えたなら処理を終了する
      */
     private handleOperator(op: Operation): void {
-        if (op === Operation.Subtract && this.buffer.getValue() === "-") {
+        if (this.shouldIgnoreInitialOperator(op)) {
             return;
         }
 
@@ -338,6 +338,17 @@ export class Calculator {
     }
 
     // === 演算子処理 ===
+    /**
+     * 初期値「0」状態で演算子「+,×,÷」が入力された場合の無効処理
+     * 
+     * @param op 入力された演算子
+     * @remarks
+     * - 現在の状態が Ready で、入力された演算子が Subtract 以外なら、初期値「0」状態での無効な演算子入力とみなし、処理を終了する
+     */
+    private shouldIgnoreInitialOperator(op: Operation): boolean {
+        return (this.state === CalcState.Ready && op !== Operation.Subtract);
+    }
+
     /**
      * 初回入力の「-」を負数入力として処理する
      *
