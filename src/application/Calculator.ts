@@ -217,10 +217,15 @@ export class Calculator {
      * 
      * @param digit 入力された数字文字列（"0" ～ "9"）
      * @remarks
+     * - 現在の状態が Ready なら、1つ目の数値入力状態へ移行する
      * - 計算結果表示中なら、新しい計算入力状態へ移行する
      * - 演算子入力後なら、2つ目の数値入力状態へ移行する
      */
     private handleDigit(digit: string): void {
+        if (this.state === CalcState.Ready) {
+            this.state = CalcState.InputtingFirst;
+        }
+
         if (this.state === CalcState.ResultShown) {
             this.resetForNewInput();
             this.display.renderHistory(""); // 追加したのでコメントいれる
