@@ -89,7 +89,7 @@ describe ("Calculator", () => {
         calc.handleInput(mapper.resolve("0")!);
         calc.handleInput(mapper.resolve("eq")!);
 
-        expect(display.lastError).toBe("0で割ることはできません"); // メッセージに合わせる
+        expect(display.lastError).toBe("0で割れません"); 
     });
 
     it("ACで初期状態に戻る", () => {
