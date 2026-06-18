@@ -10,7 +10,15 @@ describe ( "NumberFormatter", () => {
 
     describe("formatForDisplay", () => {
         it("正常な整数を文字列へ変換できる",() => {
-            expect(formatter.formatForDisplay(123)).toBe(123);
+            expect(formatter.formatForDisplay(123)).toBe("123");
+        });
+
+        it("0を表示できる", () => {
+            expect(formatter.formatForDisplay(0)).toBe("0");
+        });
+
+        it("負数を表示できる", () => {
+            expect(formatter.formatForDisplay(-123)).toBe("-123");
         });
 
         it("小数点以下の不要な 0 を削除する", () => {
@@ -18,7 +26,7 @@ describe ( "NumberFormatter", () => {
         });
 
         it("整数の末尾 .0 を削除する", () => {
-            expect(formatter.formatForDisplay(1.000000)).toBe("10");
+            expect(formatter.formatForDisplay(1.000000)).toBe("1");
         });
 
         it("小数点以下を最大8桁へ丸める", () => {
@@ -35,6 +43,10 @@ describe ( "NumberFormatter", () => {
 
         it("-0 の場合は 0 を返す", () => {
             expect(formatter.formatForDisplay(-0)).toBe(Config.Display.DEFAULT_DISPLAY_VALUE);
+        });
+
+        it("桁までは通常表示する", () => {
+            expect(formatter.formatForDisplay(12345678)).toBe("12345678");
         });
 
         it("表示桁数を超える場合は指数表記へ変換する", () => {
