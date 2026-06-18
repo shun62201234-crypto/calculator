@@ -9,6 +9,7 @@ describe("InputBuffer", () => {
         buffer = new InputBuffer();
     });
 
+    // === 状態チェック ===
     describe("isEmpty", () => {
         it("未入力状態なら true を返す", () => {
             expect(buffer.isEmpty()).toBe(true);
@@ -47,6 +48,12 @@ describe("InputBuffer", () => {
         });
     });
 
+    it("負数を数値へ変換できる", () => {
+        buffer.toggleSign();
+        buffer.pushDigit("3");
+        expect(buffer.toNumber()).toBe(-3);
+    });
+
     describe("digitCount", () => {
         it("数字のみを桁数として数える", () => {
             buffer.pushDigit("1");
@@ -62,6 +69,15 @@ describe("InputBuffer", () => {
             expect(buffer.digitCount()).toBe(1);
         });
     });
+
+    it("負号と小数点を除いて桁数を数える", () => {
+        buffer.toggleSign();
+        buffer.pushDigit("1");
+        buffer.pushDigit("2");
+        buffer.pushDecimal();
+        buffer.pushDigit("2");
+        expect(buffer.digitCount()).toBe(3);
+    })
 
     // === 基本操作 ===
     describe("clear", () => {
@@ -97,6 +113,13 @@ describe("InputBuffer", () => {
             buffer.pop();
             expect(buffer.getValue()).toBe("");
         });
+    });
+
+    it("負数の数字部分を削除できる", () => {
+        buffer.toggleSign();
+        buffer.pushDigit("3");
+        buffer.pop();
+        expect(buffer.getValue()).toBe("-");
     });
 
     // === 入力構築 ===
@@ -143,6 +166,12 @@ describe("InputBuffer", () => {
             expect(buffer.getValue()).toBe("0.");
         });
 
+        it("- の状態なら -0. を設定する", () => {
+            buffer.toggleSign();
+            buffer.pushDecimal();
+            expect(buffer.getValue()).toBe("-0.");
+        });
+
         it("小数点が既に存在するなら追加しない", () => {
             buffer.pushDigit("1");
             buffer.pushDecimal();
@@ -150,6 +179,12 @@ describe("InputBuffer", () => {
             expect(buffer.getValue()).toBe("1.");
         });
     });
+
+    it("最大桁数なら小数点を追加しない", () => {
+        for (let i = 0; i < Config.Input.MAX_DIGITS; i++) {buffer.pushDigit("1");}
+        buffer.pushDecimal();
+        expect(buffer.getValue()).toBe("1".repeat(Config.Input.MAX_DIGITS));
+    })
 
     // === 特殊操作 ===
     describe("toggleSign", () => {
