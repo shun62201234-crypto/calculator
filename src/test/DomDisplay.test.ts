@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { DomDisplay } from "../UI/DomDisplay";
 import { Config } from "../utility/Config";
+import { MockDisplay } from "./MockDisplay";
 
 describe ("DomDisplay", () => {
     let screen: HTMLElement;
@@ -43,6 +44,34 @@ describe ("DomDisplay", () => {
         it("履歴テキストを表示する", () => {
             display.renderHistory("1 + 2");
             expect(history.textContent).toBe("1 + 2");
+        });
+    });
+
+});
+
+// === Mock.test.ts ===
+describe("MockDisplay", () => {
+    describe("render", () => {
+        it("通常テキストを保持する", () => {
+            const display = new MockDisplay();
+            display.render("123");
+            expect(display.lastText).toBe("123");
+        });
+    });
+
+    describe("renderHistory", () => {
+        it("履歴テキストを保持する", () => {
+            const display = new MockDisplay;
+            display.renderHistory("1 + 2");
+            expect(display.lastHistory).toBe("1 + 2");
+        });
+    });
+
+    describe("renderError", () => {
+        it("エラーメッセージを保持する", () => {
+            const display = new MockDisplay;
+            display.renderError("error");
+            expect(display.lastError).toBe("error");
         });
     });
 
