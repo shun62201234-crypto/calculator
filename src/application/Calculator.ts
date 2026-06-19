@@ -78,21 +78,6 @@ export class Calculator {
         return this.state
     }
 
-    // /**
-    //  * 入力中の値または計算値が存在するかを判定する
-    //  * 
-    //  * @returns 入力が存在する場合はtrue、結果表示中または初期状態ならfalse
-    //  * @remarks 
-    //  * - 現在入力中の値、または左辺の値が存在する場合は「入力あり」とみなす
-    //  * - 計算結果表示中（ResultShown）は入力完了状態として扱い、false を返す
-    //  */
-    // public hasAnyInput(): boolean {
-    //     if (this.state === CalcState.ResultShown) {
-    //         return false;
-    //     }
-    //     return !this.buffer.isEmpty() || this.left !== null;
-    // }
-
     // === 入力制御（handleInputの補助）===
     /**
      * 現在の状態が通常（エラー状態でない）場合は、すべての入力を受け付ける
@@ -107,9 +92,8 @@ export class Calculator {
             return token.kind === "all_clear";
         }
 
-        return true; // クリアしても履歴（クリアできてない）
+        return true; 
     }
-
 
     // === 入力処理 ===
     /**
@@ -490,9 +474,6 @@ export class Calculator {
 
         this.resetCalculator();
         this.state = CalcState.Error;// historyがのこる？
-        // this.left = null;
-        // this.operator = null;
-        // this.buffer.clear();
     }
 
     // --- 表示関連 ---
