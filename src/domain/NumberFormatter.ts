@@ -32,15 +32,17 @@ export class NumberFormatter {
         if (Object.is(formatValue, -0)) {
             return Config.Display.DEFAULT_DISPLAY_VALUE;
         }
-
-        let text = formatValue.toFixed(Config.Display.MAX_DIGITS);
-        if (text.includes(".")) {
-            text = text.replace(/\.?0+$/, "");
-        }
-
-        if(this.countIntegerDigits(text) > Config.Display.MAX_DIGITS) {
+        
+        const integerDigits = this.countIntegerDigits(Math.abs(formatValue).toString());
+        if (integerDigits > Config.Display.MAX_DIGITS) {
             return this.formatExponential(formatValue);
         }
+
+        const decimalDigits = Config.Display.MAX_DIGITS - integerDigits;
+
+        let text = formatValue.toFixed(Math.max(decimalDigits, 0));
+
+        text = text.replace(/\.?0+$/, "");
 
         return text;
     }
@@ -66,7 +68,7 @@ export class NumberFormatter {
      * 小数点以下3桁の指数表記へ変換する。（例: 123456 → "1.235e+5"）
      */
     private formatExponential (formatValue: number): string {
-        return formatValue.toExponential(3);
+        return formatValue.toExponential(Config.Display.MAX_DIGITS - 1);
     }
 
     /**
