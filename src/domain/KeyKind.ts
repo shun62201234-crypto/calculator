@@ -15,7 +15,7 @@ export const KEY_KIND = {
     DECIMAL: "decimal",
     /** 計算実行（=） */
     EQUAL: "equal",
-    /**オールクリア操作（AC） */
+    /**オールクリア操作（C） */
     ALL_CLEAR: "all_clear",
     /** 1文字削除するバックスペース操作*/
     BACKSPACE: "backspace",

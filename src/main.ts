@@ -41,10 +41,10 @@ const calculator = new Calculator(display);
  * @returns 戻り値void
  * 
  * @remarks
- * - data-key属性を取得（例: "1", "op:+", "AC"）もしdata-key属性が存在しない場合は処理を中断
+ * - data-key属性を取得（例: "1", "op:+", "C"）もしdata-key属性が存在しない場合は処理を中断
  * - キーをアプリ内部のトークンに変換 もしトークンに変換できなければ何もしない
  * - 計算処理に渡す
- * - ACとBSの切り替え
+ * - CとBSの切り替え
  * - ログに記録
  */
 function handleButtonClick(button: HTMLButtonElement): void {

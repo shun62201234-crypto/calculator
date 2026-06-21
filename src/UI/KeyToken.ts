@@ -33,7 +33,7 @@ export type KeyToken  =
      */
     | { kind: typeof KEY_KIND.EQUAL }
 
-    /** クリアキー（AC）
+    /** クリアキー（C）
      * @remarks
      * - 入力内容や状態をリセットする
      */

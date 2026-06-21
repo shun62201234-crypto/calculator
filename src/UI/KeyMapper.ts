@@ -45,7 +45,7 @@ export class KeyMapper {
     private initializeOthers() {
         this.keyMap.set(".", { kind: KEY_KIND.DECIMAL});
         this.keyMap.set("eq", { kind: KEY_KIND.EQUAL});
-        this.keyMap.set("AC", { kind: KEY_KIND.ALL_CLEAR});
+        this.keyMap.set("C", { kind: KEY_KIND.ALL_CLEAR});
         this.keyMap.set("BS", { kind: KEY_KIND.BACKSPACE});
     }
     
