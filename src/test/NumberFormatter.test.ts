@@ -29,8 +29,12 @@ describe ( "NumberFormatter", () => {
             expect(formatter.formatForDisplay(1.000000)).toBe("1");
         });
 
-        it("小数点以下を最大8桁へ丸める", () => {
-            expect(formatter.formatForDisplay(1.123456789)).toBe("1.12345679");
+        it("整数部と小数部を合わせて8桁まで表示する", () => {
+            expect(formatter.formatForDisplay(1.123456789)).toBe("1.1234568");
+        });
+
+        it("0.12345678 を表示できる", () => {
+            expect(formatter.formatForDisplay(0.12345678)).toBe("0.1234568");
         });
 
         it("Infinity の場合は error を返す", () => {
@@ -45,16 +49,16 @@ describe ( "NumberFormatter", () => {
             expect(formatter.formatForDisplay(-0)).toBe(Config.Display.DEFAULT_DISPLAY_VALUE);
         });
 
-        it("桁までは通常表示する", () => {
+        it("8桁までは通常表示する", () => {
             expect(formatter.formatForDisplay(12345678)).toBe("12345678");
         });
 
         it("表示桁数を超える場合は指数表記へ変換する", () => {
-            expect(formatter.formatForDisplay(123456789)).toBe("1.235e+8");
+            expect(formatter.formatForDisplay(123456789)).toBe("1.2345679e+8");
         });
 
         it("負数でも指数表記へ変換できる", () => {
-            expect(formatter.formatForDisplay(-123456789)).toBe("-1.235e+8");
+            expect(formatter.formatForDisplay(-123456789)).toBe("-1.2345679e+8");
         });
     });
 
