@@ -23,6 +23,7 @@ export class NumberFormatter {
      * - -0 は、0 を表示する
      * - 小数点以下を最大8桁へ丸め、小数点以下の不要な末尾 0 を削除する
      * - 画面表示できる最大桁数より桁数が多いなら、表示する数字を指数表記へ変換する
+     * - 画面表示できる最大桁数は、整数部と小数部を合わせて8桁（例: 12345678, 0.1234567）までとする
      */
     public formatForDisplay (formatValue: number): string {
         if (!Number.isFinite(formatValue)) {
@@ -32,14 +33,14 @@ export class NumberFormatter {
         if (Object.is(formatValue, -0)) {
             return Config.Display.DEFAULT_DISPLAY_VALUE;
         }
-        
-        const integerDigits = this.countIntegerDigits(Math.abs(formatValue).toString());
-        if (integerDigits > Config.Display.MAX_DIGITS) {
+
+        const absValue = Math.abs(formatValue);
+        if (absValue >= 10 ** Config.Display.MAX_DIGITS || (absValue > 0 && absValue < 1e-7)) {
             return this.formatExponential(formatValue);
         }
 
+        const integerDigits = this.countIntegerDigits(Math.abs(formatValue).toString());
         const decimalDigits = Config.Display.MAX_DIGITS - integerDigits;
-
         let text = formatValue.toFixed(Math.max(decimalDigits, 0));
 
         text = text.replace(/\.?0+$/, "");
@@ -65,7 +66,7 @@ export class NumberFormatter {
      * @param formatValue 変換する数値
      * @returns 指数表記の文字列
      * @remarks
-     * 小数点以下3桁の指数表記へ変換する。（例: 123456 → "1.235e+5"）
+     * 小数点以下3桁の指数表記へ変換する。（例: 123456789 → "1.2345679e+8" , 0.00000001 → "1.0000000e-8）
      */
     private formatExponential (formatValue: number): string {
         return formatValue.toExponential(Config.Display.MAX_DIGITS - 1);
